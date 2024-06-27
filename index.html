@@ -4,159 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control Panel</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        button, input[type=range] {
-            margin: 10px;
-            padding: 15px 25px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-        }
-        input[type=range] {
-            width: 300px;
-            padding: 0;
-            background-color: transparent;
-        }
-        button:hover, input[type=range]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <label for="volume-slider">Volume:</label>
-    <input type="range" id="volume-slider" min="0" max="100" value="50">
-    <button id="max-volume">Max Volume</button>
-    <button id="mute">Mute</button>
-    <button id="record">Record</button>
-    <button id="power-off">Power Off</button>
-    <button id="power-on">Power On</button>
-    <button id="unlock">Unlock</button>
+    <div class="container">
+        <div class="volume-slider-container" id="volumeSliderContainer">
+            <input type="range" min="0" max="100" value="50" class="volume-slider" oninput="updateSlider(this)">
+            <div class="slider-value" id="sliderValue">Volume</div>
+        </div>
+        <ul id="controls" class="grid">
+            <!-- Controls will get inserted here via javascript -->
+        </ul>
+    </div>
 
-    <script>
-        function sendVolume(value) {
-            fetch(`https://trigger.macrodroid.com/20105183-0b4f-4260-9f8d-33e02ade21ca/volume?volString=${value}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ volume: value }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
+    <!-- Add command dialog box -->
+    <dialog id="commandDialog">
+        <form method="dialog">
+            <label for="commandInput">Enter Command:</label>
+            <input type="text" id="commandInput" name="command">
+            <button type="button" id="sendCommandButton">Send</button>
+            <button type="button" id="closeCommandDialogButton">Close</button>
+        </form>
+    </dialog>
 
-        function sendUnlock() {
-            fetch('https://trigger.macrodroid.com/20105183-0b4f-4260-9f8d-33e02ade21ca/unlock', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ unlock: true }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
+    <!-- Add link dialog box -->
+    <dialog id="linkDialog">
+        <form method="dialog">
+            <label for="linkInput">Enter Link:</label>
+            <input type="text" id="linkInput" name="link">
+            <button type="button" id="sendLinkButton">Send</button>
+            <button type="button" id="closeLinkDialogButton">Close</button>
+        </form>
+    </dialog>
 
-        function sendRecord() {
-            fetch('https://trigger.macrodroid.com/20105183-0b4f-4260-9f8d-33e02ade21ca/record', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ record: true }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
-        function sendStopRecord() {
-            fetch('https://trigger.macrodroid.com/20105183-0b4f-4260-9f8d-33e02ade21ca/stoprecord', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ stopRecord: true }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
-        document.getElementById('volume-slider').oninput = function() {
-            const volume = this.value;
-            console.log('Volume:', volume);
-            sendVolume(volume);
-        };
-
-        document.getElementById('mute').onclick = function() {
-            console.log('Mute button clicked');
-            document.getElementById('volume-slider').value = 0;
-            sendVolume(0);
-        };
-
-        document.getElementById('max-volume').onclick = function() {
-            console.log('Max Volume button clicked');
-            document.getElementById('volume-slider').value = 100;
-            sendVolume(100);
-        };
-
-        document.getElementById('record').onclick = function() {
-            const recordButton = document.getElementById('record');
-            if (recordButton.textContent === 'Record') {
-                console.log('Record button clicked');
-                sendRecord();
-                recordButton.textContent = 'Stop Recording';
-            } else {
-                console.log('Stop Recording button clicked');
-                sendStopRecord();
-                recordButton.textContent = 'Record';
-            }
-        };
-
-        document.getElementById('power-off').onclick = function() {
-            console.log('Power Off button clicked');
-            // Add your functionality here
-        };
-
-        document.getElementById('power-on').onclick = function() {
-            console.log('Power On button clicked');
-            // Add your functionality here
-        };
-
-        document.getElementById('unlock').onclick = function() {
-            console.log('Unlock button clicked');
-            sendUnlock();
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
