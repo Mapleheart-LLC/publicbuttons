@@ -52,3 +52,32 @@ function showNotification(message, type) {
         notification.classList.remove('show');
     }, 3000);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loadingAnimationContainer = document.getElementById('loadingAnimation');
+  const container = document.querySelector('.container');
+
+  const animation = lottie.loadAnimation({
+    container: loadingAnimationContainer,
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'loading.json' // Replace with the URL of the hosted JSON file
+  });
+
+  function showLoadingAnimation() {
+    loadingAnimationContainer.style.display = 'block';
+    container.classList.add('hidden');
+  }
+
+  function hideLoadingAnimation() {
+    loadingAnimationContainer.style.display = 'none';
+    container.classList.remove('hidden');
+  }
+
+  // Example usage:
+  showLoadingAnimation();
+  window.onload = function () {
+    setTimeout(hideLoadingAnimation, 3000); // Show loading animation for 3 seconds after page load
+  };
+});
