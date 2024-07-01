@@ -17,6 +17,10 @@ body {
     text-align: center;
 }
 
+.hidden {
+    display: none;
+}
+
 h1 {
     margin-bottom: 20px;
     color: #ffffff;
@@ -84,4 +88,16 @@ button:hover {
 .notification.show {
     display: block;
     opacity: 1;
+}
+
+/* Loading animation styles */
+.loading-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    z-index: 1000;
+    display: none; /* Hide by default */
 }
