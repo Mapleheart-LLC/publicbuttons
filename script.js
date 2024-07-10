@@ -1,44 +1,61 @@
-document.getElementById('tweetForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const tweet = document.getElementById('tweetInput').value;
-    const button = document.querySelector('button[type="submit"]');
-    const responseMessage = document.getElementById('responseMessage');
-    const url = `https://trigger.macrodroid.com/20105183-0b4f-4260-9f8d-33e02ade21ca/x?tweet=${encodeURIComponent(tweet)}`;
+document.addEventListener('DOMContentLoaded', () => {
+    const tweetButton = document.getElementById('tweetButton');
+    const noteButton = document.getElementById('noteButton');
+    const linkButton = document.getElementById('linkButton');
 
-    button.disabled = true;
-    button.innerText = 'Sending...';
+    const tweetDialog = document.getElementById('tweetDialog');
+    const noteDialog = document.getElementById('noteDialog');
+    const linkDialog = document.getElementById('linkDialog');
 
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            responseMessage.innerText = 'Tweet sent successfully!';
-            document.getElementById('tweetInput').value = '';
-            button.innerText = 'Sent!';
-            setTimeout(() => {
-                button.disabled = false;
-                button.innerText = 'Send';
-            }, 2000);
-        })
-        .catch(error => {
-            responseMessage.innerText = 'Failed to send tweet. Please try again.';
-            button.disabled = false;
-            button.innerText = 'Send';
-        });
-});
+    tweetButton.addEventListener('click', () => {
+        tweetDialog.classList.remove('hidden');
+    });
 
-document.getElementById('clickerButton').addEventListener('click', function() {
-    fetch('https://trigger.macrodroid.com/20105183-0b4f-4260-9f8d-33e02ade21ca/clicker', {
-        method: 'POST'
-    })
-    .then(response => {
-        if (response.ok) {
-            showNotification('Clicker triggered successfully!', 'success');
-        } else {
-            showNotification('Failed to trigger clicker.', 'error');
-        }
-    })
-    .catch(error => {
-        showNotification('Error: ' + error, 'error');
+    noteButton.addEventListener('click', () => {
+        noteDialog.classList.remove('hidden');
+    });
+
+    linkButton.addEventListener('click', () => {
+        linkDialog.classList.remove('hidden');
+    });
+
+    document.getElementById('cancelTweetButton').addEventListener('click', () => {
+        tweetDialog.classList.add('hidden');
+    });
+
+    document.getElementById('cancelNoteButton').addEventListener('click', () => {
+        noteDialog.classList.add('hidden');
+    });
+
+    document.getElementById('cancelLinkButton').addEventListener('click', () => {
+        linkDialog.classList.add('hidden');
+    });
+
+    document.getElementById('sendTweetButton').addEventListener('click', () => {
+        const tweetText = document.getElementById('tweetInput').value;
+        const url = `https://tinyurl.com/yu99rgjb/tweet?text=${encodeURIComponent(tweetText)}`;
+        fetch(url, { method: 'POST' })
+            .then(response => response.ok ? showNotification('Tweet sent successfully!', 'success') : showNotification('Failed to send tweet.', 'error'))
+            .catch(error => showNotification('Error: ' + error, 'error'));
+        tweetDialog.classList.add('hidden');
+    });
+
+    document.getElementById('sendNoteButton').addEventListener('click', () => {
+        const noteText = document.getElementById('noteInput').value;
+        const url = `https://tinyurl.com/yu99rgjb/note?text=${encodeURIComponent(noteText)}`;
+        fetch(url, { method: 'POST' })
+            .then(response => response.ok ? showNotification('Note sent successfully!', 'success') : showNotification('Failed to send note.', 'error'))
+            .catch(error => showNotification('Error: ' + error, 'error'));
+        noteDialog.classList.add('hidden');
+    });
+
+    document.getElementById('sendLinkButton').addEventListener('click', () => {
+        const linkUrl = document.getElementById('linkInput').value;
+        const url = `https://tinyurl.com/yu99rgjb/link?link=${encodeURIComponent(linkUrl)}`;
+        fetch(url, { method: 'POST' })
+            .then(response => response.ok ? showNotification('Link sent successfully!', 'success') : showNotification('Failed to send link.', 'error'))
+            .catch(error => showNotification('Error: ' + error, 'error'));
+        linkDialog.classList.add('hidden');
     });
 });
 
@@ -47,37 +64,8 @@ function showNotification(message, type) {
     notification.textContent = message;
     notification.style.backgroundColor = type === 'success' ? '#4caf50' : '#f44336';
     notification.classList.add('show');
-    
+
     setTimeout(() => {
         notification.classList.remove('show');
     }, 3000);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  const loadingAnimationContainer = document.getElementById('loadingAnimation');
-  const container = document.querySelector('.container');
-
-  const animation = lottie.loadAnimation({
-    container: loadingAnimationContainer,
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    path: 'loading.json' // Replace with the URL of the hosted JSON file
-  });
-
-  function showLoadingAnimation() {
-    loadingAnimationContainer.style.display = 'block';
-    container.classList.add('hidden');
-  }
-
-  function hideLoadingAnimation() {
-    loadingAnimationContainer.style.display = 'none';
-    container.classList.remove('hidden');
-  }
-
-  // Example usage:
-  showLoadingAnimation();
-  window.onload = function () {
-    setTimeout(hideLoadingAnimation, 3000); // Show loading animation for 3 seconds after page load
-  };
-});
