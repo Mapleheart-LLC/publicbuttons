@@ -3,24 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Tweet</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="x-icon" href="favicon.ico">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js"></script>
+    <title>Buttons</title>
 </head>
 <body>
-    <div id="loadingAnimation" class="loading-animation"></div>
-    <div class="container hidden">
-        <h1>Send a Tweet</h1>
-        <form id="tweetForm">
-            <textarea id="tweetInput" placeholder="from @lilmapletini" maxlength="280"></textarea>
-            <button type="submit">Send</button>
-        </form>
-        <p id="responseMessage"></p>
-        <button id="clickerButton">Clicker</button>
+    <div class="container">
+        <h1>Control Panel</h1>
+        <button id="tweetButton">Tweet</button>
+        <button id="noteButton">Leave a Note</button>
+        <button id="linkButton">Open Link</button>
     </div>
+
+    <div id="tweetDialog" class="dialog hidden">
+        <input type="text" id="tweetInput" placeholder="Enter your tweet">
+        <div class="dialog-buttons">
+            <button id="sendTweetButton">Send Tweet</button>
+            <button id="cancelTweetButton" class="cancelButton">Cancel</button>
+        </div>
+    </div>
+
+    <div id="noteDialog" class="dialog hidden">
+        <input type="text" id="noteInput" placeholder="Enter your note">
+        <div class="dialog-buttons">
+            <button id="sendNoteButton">Send Note</button>
+            <button id="cancelNoteButton" class="cancelButton">Cancel</button>
+        </div>
+    </div>
+
+    <div id="linkDialog" class="dialog hidden">
+        <input type="text" id="linkInput" placeholder="Enter the link">
+        <div class="dialog-buttons">
+            <button id="sendLinkButton">Send Link</button>
+            <button id="cancelLinkButton" class="cancelButton">Cancel</button>
+        </div>
+    </div>
+
     <div id="notification" class="notification"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
