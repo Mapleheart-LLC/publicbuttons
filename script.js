@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('sendLinkButton').addEventListener('click', () => {
         const linkUrl = document.getElementById('linkInput').value;
-        const url = `https://tinyurl.com/yu99rgjb/link?link=${encodeURIComponent(linkUrl)}`;
+        const url = `https://trigger.macrodroid.com/834a628e-a605-4607-8ecf-d36b504db193/sent?url=${encodeURIComponent(linkUrl)}`;
         fetch(url, { method: 'POST' })
             .then(response => response.ok ? showNotification('Link sent successfully!', 'success') : showNotification('Failed to send link.', 'error'))
             .catch(error => showNotification('Error: ' + error, 'error'));
